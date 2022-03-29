@@ -1,9 +1,9 @@
 # D3
-###The implementation for ACL 2022 paper 
+### The implementation for ACL 2022 paper 
 
-###A Model-Agnostic Data Manipulation Method for Persona-based Dialogue Generation
+### A Model-Agnostic Data Manipulation Method for Persona-based Dialogue Generation
 
-![Framework](framework.png)
+![Framework](https://github.com/caoyu-noob/D3/blob/main/framework.PNG)
 
 ---
 
@@ -18,7 +18,7 @@ and so on.
 
 ---
 
-###Requirements
+### Requirements
 1. python == 3.7.0
 2. torch==1.5.0
 3. transformers==3.1.0
@@ -38,7 +38,7 @@ a proper BERT model for a successful evaluation.
 ---
 ## Run the code
 
-##1. Obtain PersonaChat Dataset
+## 1. Obtain PersonaChat Dataset
 
 Obtain PersonaChat dataset via [ParlAI](https://github.com/facebookresearch/ParlAI/tree/main/parlai/tasks/personachat)
  or [our zipped version](https://drive.google.com/file/d/1zQVO5MuEy3wBUfZpM39uYmloD3-Rld4T/view) and put them into the `./datasets` directory.
@@ -47,7 +47,7 @@ Obtain PersonaChat dataset via [ParlAI](https://github.com/facebookresearch/Parl
 At first, we have to get all trained models we need for data manipulation in experiments.
 You need go to `./data_manipulation/prepare_model`.
 
-#####1) NLI model for evaluating persona consistency
+##### 1) NLI model for evaluating persona consistency
 You need to download [DialogueNLI dataset](https://wellecks.github.io/dialogue_nli/)
 and put it under this directory. Also, download large size [RoBERTa MNLI model](https://huggingface.co/roberta-large-mnli)
 and put it under this directory, renaming the document as `roberta_mnli/`.
@@ -57,14 +57,14 @@ Then you can train the NLI model using this dataset using script `train_nli_mode
 After obtain the trained best model, you need to renamed the file `best_model.bin` as `pytorch_model.bin` for the following 
 use. Define the path that saves the trained NLI model for persona consistency as `PERSONA_NLI`.
 
-#####2) NLI model for evaluating coherence of dialogue history
+##### 2) NLI model for evaluating coherence of dialogue history
 
 Using the same RoBERTa MNLI model we used in 1 and `train_coherence_nli.py` to train it on the [InferConvAI2 dataset](https://github.com/nouhadziri/DialogEntailment).
 It is a dialogue NLI dataset designed for evaluating the coherence of dialogue history. 
 
 Save the obtained model, define the path containing the model as `COHERENCE_NLI`.
 
-#####3) BERT and GPT2 model used in data diversification
+##### 3) BERT and GPT2 model used in data diversification
 
 First use `extract_personas_and_responses.py` to extract persona and response texts into two json files.
 
@@ -74,7 +74,7 @@ Then using `finetune_bert_and_gpt2.py` to fine tune BERT and GPT2 model on `pers
 GPT2<sub>per</sub>, then fine tune GPT2 on `responses.json` to obtain GPT2<sub>res</sub>, editing the code to assign the model paths
 of BERT and GPT2 you just defined before.
 
-#####4) Back translation model for dialogue history diversification
+##### 4) Back translation model for dialogue history diversification
 
 Got to directory `./BT`.
 
@@ -84,7 +84,7 @@ BPE from sentencepiece using `preprocess.sh`, obtaining `sentence.bpe.model`.
 Train en-fr and fr-en translation model using `train_en-fr.sh` and `train_fr-en.sh` under this directory and the average the last 5 models using 
 `average_model.sh`. Define the obtained model checkpoints as `BT_EN-FR` and `BT-FR-EN`.
 
-##3. Data Distillation
+## 3. Data Distillation
 
 Go to `./data_augmentation/data_distillation`.
 
@@ -94,14 +94,14 @@ you obtained before.
 Then using `get_distilled_dataset.py` to obtain the distilled dataset using the previously logits given by the NLI model.
 Assume that the obtain distilled data file is `DISTILL_DATA`.
 
-##4. Data diversification
+## 4. Data diversification
 
-#####1) Obtain the Multi-GPT2 model for response align under new personas
+##### 1) Obtain the Multi-GPT2 model for response align under new personas
 At first you need to obtain a Multi-GPT2 model trained on the distilled samples. You can use the shell 
 `train_multi_gpt2_distilled.sh` under the root directory. Set the training data as `DISTILL_DATA`
  according to the definitions of `config.py`
 
-#####2) Augment dialogue history
+##### 2) Augment dialogue history
 Then you need to augment dialogue history. Go to `./BT`, using `get_bt_input_file.py` to transform the distilled data 
 `DISTILL_DATA` into the format for back translation. Then use `bpe_split.py` to pre-process the newly obtained txt file with BPE. 
 
@@ -109,7 +109,7 @@ Using `evaluate.sh` and `evaluate_back.sh` you can translate all utterance into 
 
 Finally, using `recover.py` you can recover the txt file into its original distilled data format in a json file.
 
-#####3) Editing personas and align responses
+##### 3) Editing personas and align responses
 Go to `./data_augmentation/data_diversification`. Using `generate_new_personas_and_edit_responses.py` you can obtain 
 new personas as well as some samples with edited new responses if applicable.
 
@@ -120,7 +120,7 @@ Using `get_augmented_scores.py` you can get the filter scores for each new sampl
 Using `filter_augmented_data.py` you can get the filtered diversified samples along with the distilled one. They form
 the augmented dataset used as an easy curriculum for training.
 
-##5. Train model
+## 5. Train model
 
 Put the obtained augmented dataset into `./datasets/augmented/` and then you can train two models using 
 `train_seq2seq_D3.sh` and `train_gpt2_D3.sh`.
