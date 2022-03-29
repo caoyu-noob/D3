@@ -1,0 +1,18 @@
+CUDA_VISIBLE_DEVICES=0 python train.py \
+--train_batch_size 256 \
+--batch_split 32 \
+--lr 5e-4 \
+--train_datasets datasets/th0.99_model_entail_train_data.json \
+--valid_datasets datasets/th0.99_model_entail_dev_data.json \
+--test_datasets datasets/th0.99_model_entail_dev_data.json \
+--train_datasets_cache datasets/th0.99_model_entail_train_gpt2_cache \
+--valid_datasets_cache datasets/th0.99_model_entail_valid_gpt2_cache \
+--test_datasets_cache datasets/th0.99_model_entail_valid_gpt2_cache \
+--model_type gpt2 \
+--data_type entailment \
+--shared_module 0 \
+--shared_attention 0 \
+--n_epochs 5 \
+--attention_pooling_type sw \
+--extra_module_lr_rate 5.0 \
+--max_history_size 1 \

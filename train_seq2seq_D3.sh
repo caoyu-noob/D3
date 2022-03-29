@@ -1,0 +1,32 @@
+CUDA_VISIBLE_DEVICES=0 python train.py \
+--train_batch_size 256 \
+--batch_split 8 \
+--n_epochs 100 \
+--lr 2e-4 \
+--train_datasets datasets/train_self_original.txt \
+--valid_datasets datasets/valid_self_original.txt \
+--test_datasets datasets/test_self_original.txt \
+--train_datasets_cache datasets/train_seq2seq_self_cache \
+--valid_datasets_cache datasets/valid_seq2seq_self_cache \
+--test_datasets_cache datasets/test_seq2seq_self_cache \
+--curriculum_learning \
+--curriculum_train_datasets datasets/augmented/th0.99_self_augmented.json \
+--curriculum_train_datasets_cache datasets/augmented/th0.99_self_augmented_seq2seq_cache \
+--curriculum_valid_datasets datasets/augmented/th0.99_dev_augmented.json \
+--curriculum_valid_datasets_cache datasets/augmented/th0.99_dev_augmented_seq2seq_cache \
+--curriculum_lr 2e-4 \
+--curriculum_n_epochs 50 \
+--curriculum_patience 15 \
+--curriculum_max_history_size 1 \
+--curriculum_data_type entailment \
+--extend_exist_vocab datasets/vocab/persona_self_vocab.bin \
+--vocab_path datasets/vocab/persona_self_augmented_vocab.bin \
+--model_type seq2seq \
+--single_input \
+--label_smoothing 0.1 \
+--pointer_gen \
+--s2s_weight 1 \
+--patience 15 \
+--negative_samples 0 \
+--max_history_size 5 \
+--entail_score_refs_file ./persona_test_entailment_idx.json \

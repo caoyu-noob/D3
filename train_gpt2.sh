@@ -1,0 +1,19 @@
+CUDA_VISIBLE_DEVICES=0 python train.py \
+--train_batch_size 256 \
+--batch_split 32 \
+--n_epochs 15 \
+--lr 6.25e-5 \
+--train_datasets datasets/train_self_original.txt \
+--valid_datasets datasets/valid_self_original.txt \
+--test_datasets datasets/test_self_original.txt \
+--train_datasets_cache datasets/th0.99_entail_gpt2_self_cache \
+--valid_datasets_cache datasets/valid_gpt2_self_cache \
+--test_datasets_cache datasets/test_gpt2_self_cache \
+--model_type gpt2 \
+--single_input \
+--hits_weight 1 \
+--s2s_weight 1 \
+--negative_samples 1 \
+--patience 5 \
+--max_history_size 5 \
+--entail_score_refs_file ./persona_test_entailment_idx.json \

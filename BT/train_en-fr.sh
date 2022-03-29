@@ -1,0 +1,28 @@
+python ../fairseq/train.py ./enfr/ \
+--arch transformer_wmt_en_de \
+--criterion label_smoothed_cross_entropy \
+--label-smoothing 0.1 \
+--lr 7e-4 \
+--warmup-init-lr 1e-7 \
+--min-lr 1e-9 \
+--lr-scheduler inverse_sqrt \
+--warmup-updates 4000 \
+--optimizer adam \
+--adam-betas '(0.9,0.98)' \
+--adam-eps 1e-6 \
+-s en \
+-t fr \
+--max-tokens 8192 \
+--max-update 100000 \
+--weight-decay 0.01 \
+--seed 0 \
+--save-dir ./checkpoints/enfr/ \
+--ddp-backend=no_c10d \
+--fp16 \
+--update-freq 8 \
+--dropout 0.3 \
+--no-progress-bar \
+--log-format simple \
+--log-interval 50 \
+--save-interval-updates 4000 \
+--share-decoder-input-output-embed \
