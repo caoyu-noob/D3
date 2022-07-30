@@ -38,6 +38,9 @@ a proper BERT model for a successful evaluation.
 ---
 ## Run the code
 
+To be honest, just applying step 3.Data Distillation can achieve a satisfactory performance. The step 4.data diversification
+contribute less to the final results and is more complex.
+
 ## 1. Obtain PersonaChat Dataset
 
 Obtain PersonaChat dataset via [ParlAI](https://github.com/facebookresearch/ParlAI/tree/main/parlai/tasks/personachat)
