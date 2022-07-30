@@ -279,8 +279,11 @@ class Block(nn.Module):
         self.attn = Attention(nx, n_ctx, config, scale)
         self.ln_2 = nn.LayerNorm(nx, eps=config.layer_norm_epsilon)
         self.mlp = MLP(4 * nx, config)
-        self.shared_attention = config.shared_attention
         self.output_attentions = config.output_attentions
+        if hasattr(config, 'shared_attention'):
+            self.shared_attention = config.shared_attention
+        else:
+            self.shared_attention = True
         if not single_input:
             self.context_size = config.context_size
             if self.context_size > 0:
@@ -514,29 +517,6 @@ class GPT2Model(GPT2PreTrainedModel):
         """
         for layer, heads in heads_to_prune.items():
             self.h[layer].attn.prune_heads(heads)
-
-    ## Old version embedding mixup
-    # def _mix_up_embedding(self, inputs_embeds, mix_replace):
-    #     # start_time = datetime.datetime.now()
-    #     for i in range(inputs_embeds.size(0)):
-    #         mask = torch.ones_like(inputs_embeds[i, :, :])
-    #         new_embed = torch.zeros_like(inputs_embeds[i, :, :])
-    #         for j in range(len(mix_replace[i])):
-    #             mix_neighbors = mix_replace[i][j][0]
-    #             mix_neighbors_probs = mix_replace[i][j][1]
-    #             encoded_neighbors = self.wte(mix_neighbors)
-    #             weight_sum = torch.sum(mix_neighbors_probs)
-    #             embed = torch.sum(encoded_neighbors * mix_neighbors_probs.unsqueeze(-1), dim=0) / weight_sum
-    #             pos = mix_replace[i][j][2]
-    #             cur_mask = torch.zeros_like(inputs_embeds[i, :, :])
-    #             cur_mask.index_fill_(0, pos, 1)
-    #             mask = mask - cur_mask
-    #             new_embed = new_embed + cur_mask * embed.unsqueeze(0)
-    #         inputs_embeds[i, :, :] = inputs_embeds[i, :, :] * mask + new_embed
-    #     # end_time = datetime.datetime.now()
-    #     # during = end_time - start_time
-    #     # print('mix up time:' + str(during.microseconds))
-    #     return inputs_embeds
 
     def _mix_up_embedding(self, inputs_embeds, mix_replace):
         for i in range(inputs_embeds.size(0)):
