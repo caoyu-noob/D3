@@ -133,7 +133,5 @@ for epoch in range(EPOCHS):
         optimizer.zero_grad()
         if step % EVAL_INTERVAL == 0:
             prev_best = eval_model(model, dev_dataloader, prev_best, step)
-        if step >= 32:
-            break
     prev_best = eval_model(model, dev_dataloader, prev_best, step)
 
