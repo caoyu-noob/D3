@@ -102,7 +102,8 @@ Assume that the obtain distilled data file is `DISTILL_DATA`.
 ##### 1) Obtain the Multi-GPT2 model for response align under new personas
 At first you need to obtain a Multi-GPT2 model trained on the distilled samples. You can use the shell 
 `train_multi_gpt2_distilled.sh` under the root directory. Set the training data as `DISTILL_DATA`
- according to the definitions of `config.py`
+ according to the definitions of `config.py`. Note that you should use `config.json` under `multi_gpt2` to replace the 
+ original `onfig.json` in the initial model weight path to train this model.
 
 ##### 2) Augment dialogue history
 Then you need to augment dialogue history. Go to `./BT`, using `get_bt_input_file.py` to transform the distilled data 
