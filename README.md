@@ -60,6 +60,9 @@ Then you can train the NLI model using this dataset using script `train_nli_mode
 After obtain the trained best model, you need to renamed the file `best_model.bin` as `pytorch_model.bin` for the following 
 use. Define the path that saves the trained NLI model for persona consistency as `PERSONA_NLI`.
 
+We also provide our trained [NLI model](https://drive.google.com/file/d/1QnT8V2Yj4Zl2yW2rnQIi2p56I_wbN3Ee/view?usp=sharing) 
+for downloading.
+
 ##### 2) NLI model for evaluating coherence of dialogue history
 
 Using the same RoBERTa MNLI model we used in 1 and `train_coherence_nli.py` to train it on the [InferConvAI2 dataset](https://github.com/nouhadziri/DialogEntailment).
@@ -103,7 +106,7 @@ Assume that the obtain distilled data file is `DISTILL_DATA`.
 At first you need to obtain a Multi-GPT2 model trained on the distilled samples. You can use the shell 
 `train_multi_gpt2_distilled.sh` under the root directory. Set the training data as `DISTILL_DATA`
  according to the definitions of `config.py`. Note that you should use `config.json` under `multi_gpt2` to replace the 
- original `onfig.json` in the initial model weight path to train this model.
+ original `config.json` in the initial model weight path to train this model.
 
 ##### 2) Augment dialogue history
 Then you need to augment dialogue history. Go to `./BT`, using `get_bt_input_file.py` to transform the distilled data 
