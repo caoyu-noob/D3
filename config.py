@@ -261,6 +261,10 @@ class InputConfig():
                 help='The persona and idx json file for each utterance, if None no entailment score will be calculated')
         parser.add_argument('--bert_score_model_path', type=str, default='../roberta_large', help='The model path '
                 'indicate which model will be used for bertscore, if None then no bertscore is calculated')
+        parser.add_argument('--baseline_path', type=str, default='./bert_score/rescale_baseline/en/roberta-large.tsv',
+                            help='The file path for the bert score rescale baseline')
+        parser.add_argument('--rescale_with_baseline', action='store_true',
+                            help='Whether rescale the bert score')
         parser.add_argument('--ignore_sample_indices', type=str, default=None,
                             help='The json file indicating which samples will be ignored')
         parser.add_argument('--shared_module', type=int, default=1)
@@ -273,10 +277,6 @@ class InputConfig():
                 'dyd=dynamic determine the vector weight for each dimension for each source by a linear layer'
                 'mdys=mutual determine the scalar weight for each source by a linear layer'
                 'mdyd=mutual dynamic determine the vector weight for each dimension for each source by a linear layer')
-        parser.add_argument('--extra_module_lr_rate', type=float, default=1.0, help='The lr mulitply rate for extra module, usually it needs a higher learning rate')
-        parser.add_argument('--alpha_lr', default=3e-4, type=float, help='The learning rate for alpha in DARTS model')
-        parser.add_argument('--alpha_weight_decay', default=1e-3, type=float, help='Weights decay for alpha in DARTS model')
-        parser.add_argument('--alpha_clip_grad', default=2, type=float, help='The clip norm for alpha gradient')
 
         '''Configurations related to curriculum learning'''
         parser.add_argument('--curriculum_learning', action='store_true', help='Whether to do curriculum learning')

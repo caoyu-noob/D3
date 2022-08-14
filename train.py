@@ -302,6 +302,8 @@ def training_procedure(args, trainer_config, model, tokenizer, device, writer, l
                 full_predictions,
                 full_references,
                 model_type=args.bert_score_model_path,
+                rescale_with_baseline=args.rescale_with_baseline,
+                baseline_path=args.baseline_path,
                 num_layers=16,
                 batch_size=16,
             )
