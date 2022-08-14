@@ -33,7 +33,9 @@ For evaluating the generated responses, you need to install `java-1.8.0`, `perl`
  of responses, please unzip it and put it under `./metrics/`
  
 We also use [BERTScore](https://github.com/Tiiiger/bert_score) as a metric in our experiments, you may need to download
-a proper BERT model for a successful evaluation.
+a proper BERT model for a successful evaluation. Here we use a roberta-large model. To rescale the score, we have put 
+the baseline file under `./bert_score/rescale_baseline/en`. If you want to rescale the bert score, please add 
+`--rescale_with_baseline` in the training shell.
 
 ---
 ## Run the code
